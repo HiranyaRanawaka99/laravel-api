@@ -2,8 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Models\Project;
-use App\Http\Controllers\Admin\ProjectController;
+
+use App\Http\Controllers\Api\ProjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +16,8 @@ use App\Http\Controllers\Admin\ProjectController;
 |
 */
 
+// metdo apiResource che escludono edit e create
+//useremo solo index e show
 
-Route::apiResource("projects", ProjectController::class)->only(["index", "show"]);
+Route::apiResource("/projects", ProjectController::class)->only(["index", "show"]);
     

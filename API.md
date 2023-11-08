@@ -44,6 +44,8 @@ Route::apiResource("/projects", ProjectController::class)->only(["index", "show"
 
 3. Scriviamo dentro index e show e specifichiamo i campi che vogliamo vedere in vue
 
+-   responde()->json(array) ci trasforma in dati json
+
 ```php
   public function index()
     {
