@@ -18,7 +18,7 @@ class ProjectController extends Controller
         $projects = Project::select("id", "title", "description", "link", "date")
         ->with('type:id,tag,color', 'technologies:id,label,color')
         ->orderByDesc('id')
-        ->paginate(4);
+        ->paginate(6);
     return response()->json($projects);
 
     //Specifichiamo i campi che vogliamo vedere in vue
