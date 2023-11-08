@@ -16,9 +16,9 @@ class ProjectController extends Controller
     public function index()
     {
         $projects = Project::select("id", "title", "description", "link", "date")
-        ->with('type:id,label,color', 'technology:id,label,color')
+        ->with('type:id,tag,color', 'technologies:id,label,color')
         ->orderByDesc('id')
-        ->paginate(10);
+        ->paginate(4);
     return response()->json($projects);
 
     //Specifichiamo i campi che vogliamo vedere in vue
@@ -46,7 +46,7 @@ class ProjectController extends Controller
     {
         $project = Project::select("id", "title", "link", "description", "date")
         ->where('id', $id)
-        ->with('technologies:id,label,color', 'type:id,label,color')
+        ->with('technologies:id,label,color', 'type:id,tag,color')
         ->first();
     return response()->json($project);
     }
