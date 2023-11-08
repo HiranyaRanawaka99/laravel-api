@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Technology extends Model
 {
+    protected $hidden = ['pivot'];
     use HasFactory;
 
     public function projects() {
