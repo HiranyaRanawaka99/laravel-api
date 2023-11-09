@@ -15,15 +15,18 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::select("id", "title", "description", "link", "date")
+        $projects = Project::select("id", "title", "description", "link", "date", 'type_id')
         ->with('type:id,tag,color', 'technologies:id,label,color')
         ->orderByDesc('id')
-        ->paginate(6);
-    return response()->json($projects);
+        ->paginate(3);
 
+        foreach ($projects as $project) {
+            $project->cover_image = $project->getAbsUriImage();
+        }
+    return response()->json($projects);
+    }
     //Specifichiamo i campi che vogliamo vedere in vue
 
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -44,10 +47,12 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        $project = Project::select("id", "title", "link", "description", "date")
-        ->where('id', $id)
-        ->with('technologies:id,label,color', 'type:id,tag,color')
+        $project = Project::select("id", "title", "link", "description", "date", 'type_id')
+        ->with('type:id,tag,color', 'technologies:id,label,color')
         ->first();
+
+        $project->cover_image = $project->getAbsUriImage();
+
     return response()->json($project);
     }
 

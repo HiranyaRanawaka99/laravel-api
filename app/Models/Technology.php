@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Technology extends Model
 {
-    protected $hidden = ['pivot'];
-    use HasFactory;
 
+    use HasFactory;
+ protected $hidden = ['pivot'];
     public function projects() {
         return $this->belongsToMany(Project::class);
     }
