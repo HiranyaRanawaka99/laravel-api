@@ -33,8 +33,10 @@ class ProjectPublished extends Mailable
      */
     public function envelope()
     {
+        $status = $this->project->published ? 'Published' : 'Removed';
+
         return new Envelope(
-            subject: 'Project Published',
+            subject: 'Project ' . $status,
         );
     }
 

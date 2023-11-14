@@ -9,7 +9,7 @@
 </style>
 <body>
     
-    <p> E' stato creato un nuov progetto </p>
+    <p> E' stato {{$project->published ? 'pubblicato un nuovo ': 'rimosso questo '}} progetto </p>
 
 </body>
 </html>
