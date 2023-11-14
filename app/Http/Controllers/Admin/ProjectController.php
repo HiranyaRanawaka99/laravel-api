@@ -9,10 +9,14 @@ use App\Http\Requests\StoreProjectRequest;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ProjectPublished;
 
 use App\Models\Project;
 use App\Models\Type;
 use App\Models\Technology;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
@@ -182,9 +186,16 @@ class ProjectController extends Controller
     }
 
     public function publish(Project $project, Request $request) {
+        
         $data = $request->all();
         $project->published = !Arr::exists($data, 'published') ? 1 : null;
         $project->save();
+
+
+        //Invio mail 
+        $user = Auth::user();
+        $published_post_mailable = new ProjectPublished($project);
+        Mail::to($user->email)->send($published_post_mailable);
 
         return redirect()->back();
     }
