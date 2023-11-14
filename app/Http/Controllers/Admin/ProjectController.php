@@ -180,4 +180,12 @@ class ProjectController extends Controller
         return redirect()->route('admin.projects.trash.index');
 
     }
+
+    public function publish(Project $project, Request $request) {
+        $data = $request->all();
+        $project->published = !Arr::exists($data, 'published') ? 1 : null;
+        $project->save();
+
+        return redirect()->back();
+    }
  }

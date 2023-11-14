@@ -18,6 +18,7 @@
     <tr>
       <th scope="col">ID</th>
       <th scope="col">Titolo</th>
+      <th scoper="col">Pubblicato</th>
       <th scope="col">Categoria</th>
       <th scope="col">Dettagli</th>
       <th scope="col"><a href="{{ route('admin.projects.trash.index')}}" class="btn btn-danger my-3"> Cestino </a></th>
@@ -28,6 +29,16 @@
     <tr>
       <th scope="row"> {{ $project->id}} </th>
       <td> {{ $project->title }}  </td>
+      <td>  
+        <form action="{{ route('admin.projects.publish', $project)}}" method="POST" id="form-published-{{ $project->id }}">
+          @method('PATCH')
+          @csrf
+          <label class="switch">
+            <input type="checkbox" name="published" @if ($project->published) checked @endif>
+            <span class="slider round checkbox-published" data-id="{{ $project->id }}"></span>
+          </label>
+        </form>
+      </td>
       <td>  {!! $project->getCategoryBadge() !!} </td>
       <td> 
         {{-- SHOW --}}
@@ -63,20 +74,37 @@
             </div>
           </div>
         </div>
-      </div>
-    </td>
-  </tr>     
-@empty
-<tr>
-    <td colspan="8">
+      </td>
+    </tr>  
+  @empty  
+    <tr>
+      <td colspan="8">
         <i>No projects found</i>
-    </td>
-</tr> 
+      </td>
+    </tr> 
 @endforelse
 </tbody>
 </table>
 
-  
-  {{ $projects->links('pagination::bootstrap-5') }}
+
+{{ $projects->links('pagination::bootstrap-5') }}
 </div>
-  @endsection
+@endsection
+
+@section('scripts')
+
+<script>
+  const checkboxesPublished = document.getElementsByClassName('checkbox-published');
+  for (checkbox of checkboxesPublished) {
+    checkbox.addEventListener('click', function() {
+      const idProject = this.getAttribute('data-id');
+      console.log('idProject');
+
+      const form = document.getElementById('form-published-' + idProject);
+      form.submit();
+
+
+    })
+  }
+</script>
+@endsection
